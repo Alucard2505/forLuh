@@ -5,13 +5,17 @@ const foto = document.getElementById('foto-casal');
 const mainCard = document.getElementById('main-card');
 const btnTeAmo = document.getElementById('btn-teamo');
 const containerBolhas = document.getElementById('bolhas-container');
+const musicaFundo = document.getElementById('musicaFundo');
+const progressBar = document.getElementById('progress');
+const playPauseIcon = document.getElementById('play-pause-icon');
 
 const dataInicio = new Date('2025-12-08T18:36:00').getTime();
 
-// Iniciar Experiência
+// Abrir e Tocar
 btnAbrir.addEventListener('click', (e) => {
     e.preventDefault();
     overlay.style.opacity = "0";
+    musicaFundo.play();
     setTimeout(() => {
         overlay.classList.add('hidden');
         universo.classList.remove('hidden');
@@ -21,7 +25,23 @@ btnAbrir.addEventListener('click', (e) => {
     }, 1000);
 });
 
-// Contador
+// Lógica da Barra de Progresso
+musicaFundo.ontimeupdate = function() {
+    const percentage = (musicaFundo.currentTime / musicaFundo.duration) * 100;
+    progressBar.style.width = percentage + "%";
+};
+
+// Play/Pause Manual no Player
+playPauseIcon.addEventListener('click', () => {
+    if (musicaFundo.paused) {
+        musicaFundo.play();
+        playPauseIcon.classList.replace('fa-play', 'fa-pause');
+    } else {
+        musicaFundo.pause();
+        playPauseIcon.classList.replace('fa-pause', 'fa-play');
+    }
+});
+
 function atualizarTimer() {
     const agora = new Date().getTime();
     const dif = agora - dataInicio;
@@ -36,33 +56,35 @@ function atualizarTimer() {
     `;
 }
 
-// Efeito de Tremor no TE AMO
 btnTeAmo.addEventListener('click', (e) => {
     e.preventDefault();
     mainCard.classList.add('tremar');
+    for (let i = 0; i < 15; i++) { criarCoracaoExplosao(); }
     setTimeout(() => mainCard.classList.remove('tremar'), 300);
 });
 
-// Bolhas que saem do centro (Botão ABRA)
+function criarCoracaoExplosao() {
+    const coracao = document.createElement('div');
+    coracao.classList.add('coracao-explosao');
+    coracao.innerHTML = '❤';
+    const rect = btnTeAmo.getBoundingClientRect();
+    coracao.style.left = `${rect.left + rect.width / 2}px`;
+    coracao.style.top = `${rect.top + rect.height / 2}px`;
+    coracao.style.setProperty('--x', `${(Math.random() - 0.5) * 400}px`);
+    coracao.style.setProperty('--y', `${(Math.random() - 0.5) * 300 - 50}px`);
+    document.body.appendChild(coracao);
+    setTimeout(() => coracao.remove(), 2000);
+}
+
 function criarBolha() {
-    if (overlay.classList.contains('hidden')) return; // Para de criar bolhas após abrir
-    
+    if (overlay.classList.contains('hidden')) return; 
     const b = document.createElement('div');
     b.classList.add('bolha-botao');
-    
-    const tam = Math.random() * 8 + 4 + 'px';
-    b.style.width = tam; 
-    b.style.height = tam;
-    
-    // Nascem no meio do overlay (Botão ABRA)
-    b.style.top = '50%'; 
-    b.style.left = '50%';
-    
+    b.style.width = b.style.height = Math.random() * 8 + 4 + 'px';
+    b.style.top = '50%'; b.style.left = '50%';
     b.style.setProperty('--x', (Math.random() - 0.5) * 500 + 'px');
     b.style.setProperty('--y', (Math.random() - 0.5) * 500 + 'px');
-    
     containerBolhas.appendChild(b);
     setTimeout(() => b.remove(), 4000);
 }
-
 setInterval(criarBolha, 150);
