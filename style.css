@@ -16,30 +16,90 @@ body, html {
     transition: opacity 1s ease;
 }
 
-/* --- BOTÕES NEON (Bordas corrigidas) --- */
+/* --- PLAYER DE MÚSICA ESTILIZADO --- */
+.music-player {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 12px 15px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.player-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.album-art {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid rgba(51, 217, 255, 0.5);
+}
+
+.track-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.track-name {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.artist-name {
+    color: rgba(51, 217, 255, 0.8);
+    font-size: 0.75rem;
+}
+
+.player-controls {
+    display: flex;
+    gap: 15px;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.player-controls i:hover { color: #33d9ff; }
+
+.progress-container {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #33d9ff;
+    box-shadow: 0 0 10px #33d9ff;
+    transition: width 0.1s linear;
+}
+
+/* --- RESTANTE DO ESTILO --- */
 #btn-abrir, #btn-teamo {
-    position: relative;
-    display: inline-block;
-    color: #33d9ff;
-    text-transform: uppercase;
-    text-decoration: none;
-    letter-spacing: 4px;
-    overflow: hidden; /* Garante que as linhas não saiam do botão */
-    transition: 0.5s;
+    position: relative; display: inline-block; color: #33d9ff;
+    text-transform: uppercase; text-decoration: none;
+    letter-spacing: 4px; overflow: hidden; transition: 0.5s;
 }
 
 #btn-abrir { padding: 20px 60px; font-size: 24px; }
 #btn-teamo { padding: 10px 40px; font-size: 18px; background: rgba(0,0,0,0.5); border-radius: 5px; }
 
-#btn-abrir:hover, #btn-teamo:hover {
-    background: #33d9ff;
-    color: #000;
-    box-shadow: 0 0 50px #33d9ff;
-}
+#btn-abrir:hover, #btn-teamo:hover { background: #33d9ff; color: #000; box-shadow: 0 0 50px #33d9ff; }
 
 #btn-abrir span, #btn-teamo span { position: absolute; display: block; background: #33d9ff; }
 
-/* Animações das bordas independentes */
 #btn-abrir span:nth-child(1), #btn-teamo span:nth-child(1) { top: 0; left: -100%; width: 100%; height: 2px; animation: anima1 1.5s linear infinite; }
 #btn-abrir span:nth-child(2), #btn-teamo span:nth-child(2) { top: -100%; right: 0; width: 2px; height: 100%; animation: anima2 1.5s linear infinite; animation-delay: 0.37s; }
 #btn-abrir span:nth-child(3), #btn-teamo span:nth-child(3) { bottom: 0; right: -100%; width: 100%; height: 2px; animation: anima3 1.5s linear infinite; animation-delay: 0.75s; }
@@ -50,7 +110,6 @@ body, html {
 @keyframes anima3 { 0% { right: -100%; } 50%, 100% { right: 100%; } }
 @keyframes anima4 { 0% { bottom: -100%; } 50%, 100% { bottom: 100%; } }
 
-/* --- SEGUNDA TELA --- */
 #universo {
     position: relative; width: 100%; height: 100vh;
     display: flex; justify-content: center; align-items: center;
@@ -62,33 +121,26 @@ body, html {
     position: absolute; top: -10%; left: -10%; width: 120%; height: 120%;
     background: url('galaxia.jpg') no-repeat center/cover;
     filter: contrast(1.2) brightness(0.8) saturate(1.2);
-    z-index: 1;
-    animation: galaxiaMov 40s infinite alternate ease-in-out;
+    z-index: 1; animation: galaxiaMov 40s infinite alternate ease-in-out;
 }
-
-@keyframes galaxiaMov { from { transform: scale(1); } to { transform: scale(1.1) rotate(1deg); } }
 
 .container-principal {
     position: relative; z-index: 10;
     display: flex; flex-direction: column; align-items: center;
-    padding: 30px; background: rgba(0, 0, 0, 0.85);
+    padding: 25px; background: rgba(0, 0, 0, 0.8);
     border: 1px solid rgba(51, 217, 255, 0.4); border-radius: 30px;
-    backdrop-filter: blur(10px); width: 90%; max-width: 420px;
-    transition: transform 0.1s;
+    backdrop-filter: blur(10px); width: 90%; max-width: 400px;
 }
 
-/* Efeito de Tremor */
 .tremar { animation: tremor 0.3s linear; }
 @keyframes tremor {
     0% { transform: translate(2px, 2px); }
-    25% { transform: translate(-2px, -2px); }
-    50% { transform: translate(2px, -2px); }
-    75% { transform: translate(-2px, 2px); }
+    50% { transform: translate(-2px, -2px); }
     100% { transform: translate(0, 0); }
 }
 
 .moldura-foto {
-    position: relative; width: 300px; height: 300px;
+    position: relative; width: 260px; height: 260px;
     border-radius: 50%; border: 3px solid #33d9ff;
     box-shadow: 0 0 30px rgba(51, 217, 255, 0.5); margin-bottom: 20px;
 }
@@ -97,15 +149,29 @@ body, html {
 .animar-foto { animation: entrada 2s forwards ease-out; }
 @keyframes entrada { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-.coracao { position: absolute; color: #ff2d55; font-size: 25px; text-shadow: 0 0 15px #ff2d55; animation: pulsar 1.5s infinite alternate; }
+.coracao { position: absolute; color: #ff2d55; font-size: 28px; text-shadow: 0 0 15px #ff2d55; animation: pulsar 1.5s infinite alternate; z-index: 20; }
 @keyframes pulsar { from { transform: scale(1); } to { transform: scale(1.2); } }
 
-.c1 { top: 10%; left: 0%; } .c2 { top: 0%; right: 10%; } .c3 { bottom: 15%; left: -5%; } .c4 { bottom: 5%; right: 0%; } .c5 { bottom: -10%; left: 45%; }
+.c1 { top: -10px; left: -10px; }
+.c2 { top: -20px; right: 0px; }
+.c3 { bottom: 30px; left: -30px; }
+.c4 { bottom: -5px; right: -20px; }
+.c5 { bottom: -30px; left: 45%; }
+
+.coracao-explosao {
+    position: absolute; color: #ff2d55; font-size: 20px;
+    text-shadow: 0 0 8px #ff2d55; pointer-events: none;
+    animation: coracaoExplosao 2s ease-out forwards; z-index: 100;
+}
+@keyframes coracaoExplosao {
+    0% { transform: translate(0, 0) scale(0); opacity: 1; }
+    100% { transform: translate(var(--x), var(--y)) scale(0.5); opacity: 0; }
+}
 
 #timer { color: white; text-align: center; }
-#frase-amor { margin-top: 15px; color: #33d9ff; text-align: center; font-style: italic; font-size: 0.9rem; }
+#frase-amor { margin-top: 15px; color: #33d9ff; text-align: center; font-style: italic; font-size: 0.85rem; }
+.espacador-btn { margin-top: 20px; }
 
-/* Bolhas Iniciais */
 .bolha-botao {
     position: absolute; border-radius: 50%; background: #33d9ff;
     box-shadow: 0 0 10px #33d9ff; pointer-events: none;
