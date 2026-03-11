@@ -9,7 +9,7 @@ const musicaFundo = document.getElementById('musicaFundo');
 const progressBar = document.getElementById('progress');
 const playPauseIcon = document.getElementById('play-pause-icon');
 
-const dataInicio = new Date('2026-01-12T19:36:00').getTime();
+const dataInicio = new Date('2026-01-11T19:36:00').getTime();
 
 // Abrir e Tocar
 btnAbrir.addEventListener('click', (e) => {
@@ -88,5 +88,6 @@ function criarBolha() {
     setTimeout(() => b.remove(), 4000);
 }
 setInterval(criarBolha, 150);
+
 
 
